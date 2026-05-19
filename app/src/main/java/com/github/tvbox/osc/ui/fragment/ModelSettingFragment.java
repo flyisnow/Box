@@ -825,12 +825,12 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 FastClickCheckUtil.check(v);
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
                 builder.setMessage(getString(R.string.dia_reset_device_id_confirm));
-                builder.setPositiveButton("确定", (dialog, which) -> {
+                builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     RemoteControlManager.get().resetDeviceId();
                     String newId = RemoteControlManager.get().getDeviceId();
                     tvDeviceIdValue.setText(newId.length() > 8 ? newId.substring(0, 8) + "…" : newId);
                 });
-                builder.setNegativeButton("取消", null);
+                builder.setNegativeButton(android.R.string.cancel, null);
                 builder.show();
             }
         });

@@ -30,7 +30,8 @@
             android:layout_height="@dimen/vs_300"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/vs_10"
-            android:layout_marginBottom="@dimen/vs_10" />
+            android:layout_marginBottom="@dimen/vs_10"
+            android:contentDescription="@string/dia_device_qr_title" />
 
         <TextView
             android:id="@+id/tvDeviceId"

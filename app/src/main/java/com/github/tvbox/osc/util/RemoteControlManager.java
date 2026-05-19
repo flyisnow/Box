@@ -107,7 +107,8 @@ public class RemoteControlManager {
 
                     @Override
                     public void onError(Response<String> response) {
-                        LOG.e("RemoteControl: register failed");
+                        String detail = response.getException() != null ? response.getException().getMessage() : "unknown";
+                        LOG.e("RemoteControl: register failed - " + detail);
                     }
                 });
     }
@@ -154,11 +155,12 @@ public class RemoteControlManager {
                             if (!controlUrl.isEmpty()) {
                                 Hawk.put(HawkConfig.REMOTE_CONTROL_URL, controlUrl);
                                 stopPolling();
-                                LOG.i("RemoteControl: url obtained = " + controlUrl);
+                                LOG.i("RemoteControl: master control url obtained");
                             } else {
                                 scheduleNextPoll();
                             }
                         } catch (Exception e) {
+                            LOG.e("RemoteControl: failed to parse getUrl response - " + e.getMessage());
                             scheduleNextPoll();
                         }
                     }

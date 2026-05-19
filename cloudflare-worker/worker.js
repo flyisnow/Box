@@ -67,6 +67,17 @@ async function handleSetUrl(request, env) {
     return errorResponse("url is required");
   }
 
+  // Validate that controlUrl is a valid http/https URL
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(controlUrl);
+  } catch {
+    return errorResponse("url must be a valid URL");
+  }
+  if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+    return errorResponse("url must use http or https protocol");
+  }
+
   // Verify device is registered
   const registered = await env.DEVICES.get(`device:${deviceId}`);
   if (!registered) {
