@@ -225,4 +225,11 @@
         <item>首选配置地址</item>
         <item>首选设置配置</item>
     </string-array>
+
+    <!-- 远程控制 -->
+    <string name="mn_reset_device_id">重置设备ID</string>
+    <string name="dia_reset_device_id_confirm">确认重置设备ID？这将清除当前远程控制绑定。</string>
+    <string name="dia_device_qr_title">扫描二维码绑定远程控制</string>
+    <string name="dia_device_qr_close">关闭</string>
+
 </resources>

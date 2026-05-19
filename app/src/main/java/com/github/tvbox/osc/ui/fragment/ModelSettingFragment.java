@@ -37,6 +37,7 @@ import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.HistoryHelper;
 import com.github.tvbox.osc.util.OkGoHelper;
 import com.github.tvbox.osc.util.PlayerHelper;
+import com.github.tvbox.osc.util.RemoteControlManager;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
@@ -86,6 +87,9 @@ public class ModelSettingFragment extends BaseLazyFragment {
     private TextView tvSearchView;
     private TextView tvDns;
     private TextView tvFastSearchText;
+
+    // Remote Control Section
+    private TextView tvDeviceIdValue;
 
     public static ModelSettingFragment newInstance() {
         return new ModelSettingFragment().setArguments();
@@ -808,6 +812,26 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 FastClickCheckUtil.check(v);
                 Hawk.put(HawkConfig.HOME_DEFAULT_SHOW, !Hawk.get(HawkConfig.HOME_DEFAULT_SHOW, false));
                 tvHomeDefaultShow.setText(Hawk.get(HawkConfig.HOME_DEFAULT_SHOW, true) ? "开启" : "关闭");
+            }
+        });
+
+        tvDeviceIdValue = findViewById(R.id.tvDeviceIdValue);
+        String currentDeviceId = RemoteControlManager.get().getDeviceId();
+        tvDeviceIdValue.setText(currentDeviceId.length() > 8 ? currentDeviceId.substring(0, 8) + "…" : currentDeviceId);
+
+        findViewById(R.id.llResetDeviceId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FastClickCheckUtil.check(v);
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
+                builder.setMessage(getString(R.string.dia_reset_device_id_confirm));
+                builder.setPositiveButton("确定", (dialog, which) -> {
+                    RemoteControlManager.get().resetDeviceId();
+                    String newId = RemoteControlManager.get().getDeviceId();
+                    tvDeviceIdValue.setText(newId.length() > 8 ? newId.substring(0, 8) + "…" : newId);
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
 

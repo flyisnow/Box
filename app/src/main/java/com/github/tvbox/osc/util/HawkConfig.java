@@ -79,4 +79,9 @@ public class HawkConfig {
     public static boolean hotVodDelete;
 
     public static final String SEARCH_RESULT_WIDTH = "search_result_width"; // 搜索结果view宽度
+
+    // Remote Control Settings
+    public static final String DEVICE_ID = "device_id";               // 设备唯一ID
+    public static final String REMOTE_CONTROL_URL = "remote_ctrl_url"; // 主控URL
+    public static final String WORKER_BASE_URL = "worker_base_url";    // Cloudflare Worker 地址
 }
