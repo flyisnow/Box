@@ -21,6 +21,7 @@ import com.github.tvbox.osc.util.LocaleHelper;
 import com.github.tvbox.osc.util.LOG;
 import com.github.tvbox.osc.util.OkGoHelper;
 import com.github.tvbox.osc.util.PlayerHelper;
+import com.github.tvbox.osc.util.RemoteControlManager;
 import com.github.tvbox.osc.util.SubtitleHelper;
 import com.hjq.permissions.XXPermissions;
 import com.kingja.loadsir.core.LoadSir;
@@ -95,6 +96,9 @@ public class App extends MultiDexApplication {
 
         // Add JS support
         QuickJSLoader.init();
+
+        // Initialize remote control (device ID + Cloudflare worker registration + URL polling)
+        RemoteControlManager.get().init();
 
         // add font support, my tv embed font not include emoji
         String extStorageDir = Environment.getExternalStorageDirectory().getAbsolutePath();

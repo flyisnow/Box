@@ -270,4 +270,10 @@
 
     <!-- 结束 视频设置 相关配置 -->
 
+    <!-- Remote Control -->
+    <string name="mn_reset_device_id">Reset Device ID</string>
+    <string name="dia_reset_device_id_confirm">Reset device ID? This will clear the current remote control binding.</string>
+    <string name="dia_device_qr_title">Scan QR to bind remote control</string>
+    <string name="dia_device_qr_close">Close</string>
+
 </resources>

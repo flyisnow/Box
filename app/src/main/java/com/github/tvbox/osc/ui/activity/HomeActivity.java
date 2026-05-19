@@ -51,6 +51,7 @@ import com.github.tvbox.osc.ui.dialog.SelectDialog;
 import com.github.tvbox.osc.ui.dialog.TipDialog;
 import com.github.tvbox.osc.ui.fragment.GridFragment;
 import com.github.tvbox.osc.ui.fragment.UserFragment;
+import com.github.tvbox.osc.ui.tv.QRCodeGen;
 import com.github.tvbox.osc.ui.tv.widget.DefaultTransformer;
 import com.github.tvbox.osc.ui.tv.widget.FixedSpeedScroller;
 import com.github.tvbox.osc.ui.tv.widget.NoScrollViewPager;
@@ -60,6 +61,7 @@ import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.FileUtils;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.LOG;
+import com.github.tvbox.osc.util.RemoteControlManager;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
@@ -144,6 +146,10 @@ public class HomeActivity extends BaseActivity {
             useCacheConfig = bundle.getBoolean("useCache", false);
         }
         initData();
+        // Show device QR code if no master control URL is configured yet
+        if (RemoteControlManager.get().getRemoteControlUrl().isEmpty()) {
+            showDeviceQRCodeDialog();
+        }
     }
 
     // takagen99: Added to allow read string
@@ -626,6 +632,25 @@ public class HomeActivity extends BaseActivity {
             mExitTime = System.currentTimeMillis();
             Toast.makeText(mContext, getString(R.string.hm_exit), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showDeviceQRCodeDialog() {
+        android.app.Dialog dialog = new android.app.Dialog(this);
+        dialog.setContentView(R.layout.dialog_device_qr);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        String deviceId = RemoteControlManager.get().getDeviceId();
+        ImageView ivQRCode = dialog.findViewById(R.id.ivDeviceQRCode);
+        TextView tvDeviceId = dialog.findViewById(R.id.tvDeviceId);
+        TextView btnClose = dialog.findViewById(R.id.btnClose);
+
+        int qrSize = AutoSizeUtils.mm2px(this, 300);
+        ivQRCode.setImageBitmap(QRCodeGen.generateBitmap(deviceId, qrSize, qrSize, 4));
+        tvDeviceId.setText(deviceId);
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     @Override
